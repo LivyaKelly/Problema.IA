@@ -41,4 +41,4 @@ function distanciaGulosa(a, b) {
 // Exemplo de uso
 let a = "casar";
 let b = "computador";
-console.log(`Número de Edições da Gulosa: ${distanciaGulosa(a, b)}`);
+console.log(`A distância de edição entre '${a}' e '${b}' é: ${distanciaGulosa(a, b)}`);
