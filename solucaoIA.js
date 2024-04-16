@@ -1,40 +1,44 @@
-function editDistance(a, b) {
-    // Calcula a distância de edição entre as strings a e b
-    let m = a.length;
-    let n = b.length;
+function distanciaGulosa(a, b) {
+    let edicoes = 0;
+    let i = 0, j = 0;
 
-    // Criando a matriz dp
-    let dp = new Array(m + 1);
-    for (let i = 0; i <= m; i++) {
-        dp[i] = new Array(n + 1);
-    }
-
-    for (let i = 0; i <= m; i++) {
-        dp[i][0] = i; // custo de remover todos os caracteres de a até i
-    }
-    for (let j = 0; j <= n; j++) {
-        dp[0][j] = j; // custo de inserir todos os caracteres de b até j
-    }
-
-    for (let i = 1; i <= m; i++) {
-        for (let j = 1; j <= n; j++) {
-            if (a[i - 1] === b[j - 1]) {
-                dp[i][j] = dp[i - 1][j - 1]; // nenhum custo, caracteres iguais
+    while (i < a.length && j < b.length) {
+        if (a[i] !== b[j]) {
+            if (i + 1 < a.length && a[i + 1] === b[j]) {
+                edicoes++;
+                console.log(`Substituir '${a[i]}' por '${b[j]}' em 'a' na posição ${i}`);
+                i++;
+            } else if (j + 1 < b.length && b[j + 1] === a[i]) {
+                edicoes++;
+                console.log(`Substituir '${b[j]}' por '${a[i]}' em 'b' na posição ${j}`);
+                j++;
             } else {
-                dp[i][j] = Math.min(
-                    dp[i - 1][j] + 1,    
-                    dp[i][j - 1] + 1,   
-                    dp[i - 1][j - 1] + 1 
-                );
+                edicoes++;
+                console.log(`Substituir '${a[i]}' por '${b[j]}' em 'a' na posição ${i}`);
+                i++;
+                j++;
             }
+        } else {
+            i++;
+            j++;
         }
     }
 
-    // A distância de edição final entre a e b
-    return dp[m][n];
+    while (i < a.length) {
+        edicoes++;
+        console.log(`Remover '${a[i]}' de 'a'`);
+        i++;
+    }
+    while (j < b.length) {
+        edicoes++;
+        console.log(`Inserir '${b[j]}' em 'a' no final`);
+        j++;
+    }
+
+    return edicoes;
 }
 
 // Exemplo de uso
-let a = "Inserir";
-let b = "Inserção";
-console.log(`A distância de edição entre '${a}' e '${b}' é ${editDistance(a, b)}.`);
+let a = "casar";
+let b = "computador";
+console.log(`Número de Edições da Gulosa: ${distanciaGulosa(a, b)}`);
